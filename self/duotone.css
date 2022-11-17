@@ -18,7 +18,7 @@ Generated with Base16 Builder (https://github.com/base16-builder/base16-builder)
   --hlexpand-bg: #d3af86      代碼框底部展開背景色 【可選】(如果已經關掉 highlight_height_limit,可以不用配置這個)
 */
 
-:root {
+/* :root {
 	--hl-color: #728fcb;
 	--hl-bg: #faf8f5;
 	--hltools-bg: xxxxxxx;
@@ -29,7 +29,7 @@ Generated with Base16 Builder (https://github.com/base16-builder/base16-builder)
 	--hlexpand-bg: xxxxxxx
   }
   
-  
+   */
   /* ------------------------------------- */
 
 
