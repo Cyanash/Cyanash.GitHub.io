@@ -1,0 +1,653 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>刷题日记-JAVA | Cyanash'Block</title><meta name="author" content="Cyansh"><meta name="copyright" content="Cyansh"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一些面试中和实际用到的 Java 底层 知识点. 基础知识&#x3D;&#x3D; 和 equals 区别 首先的区别是，equals 是方法，而 &#x3D;&#x3D; 是操作符；  这意味着：对于基本类型的变量来说（如 short、 int、 long、 float、 double），只能使用 &#x3D;&#x3D; ，因为这些基本类型的变量没有 equals 方法。对于基本类型变量的比较，使用 &#x3D;&#x3D; 比较， 一般比较的是它们的值。  对于引用类型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="刷题日记-JAVA">
+<meta property="og:url" content="https://cyanash.github.io/2022/11/06/%E5%88%B7%E9%A2%98%E6%97%A5%E8%AE%B0-JAVA/index.html">
+<meta property="og:site_name" content="Cyanash&#39;Block">
+<meta property="og:description" content="一些面试中和实际用到的 Java 底层 知识点. 基础知识&#x3D;&#x3D; 和 equals 区别 首先的区别是，equals 是方法，而 &#x3D;&#x3D; 是操作符；  这意味着：对于基本类型的变量来说（如 short、 int、 long、 float、 double），只能使用 &#x3D;&#x3D; ，因为这些基本类型的变量没有 equals 方法。对于基本类型变量的比较，使用 &#x3D;&#x3D; 比较， 一般比较的是它们的值。  对于引用类型">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cyanash.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2022-11-06T10:28:03.000Z">
+<meta property="article:modified_time" content="2022-11-17T13:24:08.000Z">
+<meta property="article:author" content="Cyansh">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="底层原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cyanash.github.io/img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://cyanash.github.io/2022/11/06/%E5%88%B7%E9%A2%98%E6%97%A5%E8%AE%B0-JAVA/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '刷题日记-JAVA',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-17 21:24:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Cyanash'Block</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">刷题日记-JAVA</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-06T10:28:03.000Z" title="发表于 2022-11-06 18:28:03">2022-11-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-17T13:24:08.000Z" title="更新于 2022-11-17 21:24:08">2022-11-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="刷题日记-JAVA"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>一些面试中和实际用到的 Java 底层 知识点.</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h6 id="和-equals-区别"><a href="#和-equals-区别" class="headerlink" title="== 和 equals 区别"></a><code>==</code> 和 <code>equals</code> 区别</h6><ol>
+<li><p>首先的区别是，equals 是方法，而 == 是操作符；</p>
+<ul>
+<li>这意味着：对于基本类型的变量来说（如 <code>short</code>、 <code>int</code>、 <code>long</code>、 <code>float</code>、 <code>double</code>），<strong>只能使用 <code>==</code></strong> ，因为这些基本类型的变量没有 equals 方法。对于基本类型变量的比较，使用 == 比较， 一般比较的是它们的值。 </li>
+<li>对于引用类型的变量来说（例如 String 类）才有 equals 方法，因为 String 继承了 Object 类， equals 是 Object 类的通用方法。</li>
+</ul>
+</li>
+<li><p><code>equals</code>在object类源码：<br> 说明里面使用的就是 == 比较，所以这种情况下比较的就是它们在内存中的存放地址</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">equals</span><span class="params">(Object obj)</span> </span><br><span class="line">	&#123; <span class="keyword">return</span> (<span class="built_in">this</span> == obj); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>对于 <code>equals</code> 方法被重写的情况。以 String 类为例，以下是 String 类中的 equals 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">  <span class="meta">@Override</span> </span><br><span class="line">  <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">equals</span><span class="params">(Object other)</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (other == <span class="built_in">this</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (other <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">      <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> (String)other;</span><br><span class="line">      <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="built_in">this</span>.count;</span><br><span class="line">      <span class="keyword">if</span> (s.count != count) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (hashCode() != s.hashCode()) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="type">char</span>[] value1 = value;</span><br><span class="line">      <span class="type">int</span> <span class="variable">offset1</span> <span class="operator">=</span> offset;</span><br><span class="line">      <span class="type">char</span>[] value2 = s.value;</span><br><span class="line">      <span class="type">int</span> <span class="variable">offset2</span> <span class="operator">=</span> s.offset;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">end</span> <span class="operator">=</span> offset1 + count; offset1 &lt; end; ) &#123;</span><br><span class="line">          <span class="keyword">if</span> (value1[offset1] != value2[offset2]) &#123;</span><br><span class="line">              <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          offset1++;</span><br><span class="line">          offset2++;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从源码可以看出， String 类复写了 equals 方法，当使用 == 比较内存的存放地址不相等时，接下来会比较字符串的内容是否 相等，所以 String 类中的 equals 方法会比较两者的字符串内容是否一样</p>
+</li>
+<li><p>在Java中为了方便面向对象，采用了==引用数据类型/包装数据类型==<br> <strong>基本数据类型，包装数据类型不包括 String</strong><br> 在这八个类名中，除了 <strong>Integer</strong> 和 <strong>Character</strong> 类以后，其它六个类的类名和基本数据类型一致，只是类名的第一个字母大写即可。</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">基本数据类型</th>
+<th align="center">包装类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">byte</td>
+<td align="center">Byte</td>
+</tr>
+<tr>
+<td align="center">boolean</td>
+<td align="center">Boolean</td>
+</tr>
+<tr>
+<td align="center">short</td>
+<td align="center">Short</td>
+</tr>
+<tr>
+<td align="center">char</td>
+<td align="center">Character</td>
+</tr>
+<tr>
+<td align="center">int</td>
+<td align="center">Integer</td>
+</tr>
+<tr>
+<td align="center">long</td>
+<td align="center">Long</td>
+</tr>
+<tr>
+<td align="center">float</td>
+<td align="center">Float</td>
+</tr>
+<tr>
+<td align="center">double</td>
+<td align="center">Double</td>
+</tr>
+</tbody></table>
+<p>这里面涉及到一个拆箱装箱的过程，详见：<a target="_blank" rel="noopener" href="https://hollischuang.gitee.io/tobetopjavaer/#/basics/java-basic/boxing-unboxing">自动拆装箱 (gitee.io)</a></p>
+<p>简单来说：</p>
+<blockquote>
+<p>如果一个变量 p 的值是：</p>
+<ul>
+<li>  -128 至 127 之间的整数 (§3.10.1)</li>
+<li>  true 和 false 的布尔值 (§3.10.3)</li>
+<li><code>\u0000</code> 至 <code>\u007f</code> 之间的字符 (§3.10.4)<br>范围内的时，将 p 包装成 a 和 b 两个对象时，可以直接使用 a == b 判断 a 和 b 的值是否相等。</li>
+</ul>
+</blockquote>
+<p>以上部分被缓存到了内存，且只适用自动装箱而不是<code>new</code>一个对象，在自动装箱时候会对应到缓存中的项目，如此直接用<code>==</code>比较的即使是地址值也能获得正确的结果.</p>
+<hr>
+<p>结论：</p>
+<ol>
+<li><code>==</code>本身作为比较运算符，用于基本数据类型，因为比较数据类型不存在对象，所以采用<strong>值</strong>比较。</li>
+<li><code>==</code>本身作为比较运算符，用于对象，因为对象存在特定地址，所以采用<strong>地址</strong>比较.</li>
+<li><code>equals</code>，所以未重写的，作为方法调用的是<code>==</code>运算，所以采用<strong>地址</strong>比较.</li>
+<li><code>equals</code>，有过未重写的，作为方法调用的特定方法，所以有特定的比较方式.</li>
+<li><code>Integer</code> 和 <code>Integer</code> 的对比在 非<code>new</code>, 非-128到+127 的范围可以以等与理解.</li>
+</ol>
+<hr>
+<blockquote>
+<p>参考来源：<br><a target="_blank" rel="noopener" href="https://hollischuang.gitee.io/tobetopjavaer/#/basics/java-basic/boxing-unboxing">Java成神之路</a></p>
+</blockquote>
+<h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><p>首先，java内存模型和java内存结构的区别<br><img src="https://cdn.jsdelivr.net/gh/Cyanash/CyanashBlogImg/img/202211061842468.png" alt="Java内存结构"><br><img src="https://pic1.zhimg.com/80/v2-68e920a8c61825303bfd0fe7b5eaec58_1440w.webp" alt="Java内存模型"></p>
+<blockquote>
+<p><strong>（1）java内存结构是解决java中的数据如何存放的问题。</strong><br><strong>（2）java内存模型是解决java中多个线程共享数据的问题。</strong></p>
+</blockquote>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/79699146">深入分析java内存模型（注意和java内存结构的区别） - 知乎 (zhihu.com)</a></p>
+<h3 id="Java内存结构"><a href="#Java内存结构" class="headerlink" title="Java内存结构"></a>Java内存结构</h3><p><img src="https://cdn.jsdelivr.net/gh/Cyanash/CyanashBlogImg/img/202211061421050.jpg" alt="java内存结构"><br>对应几部分分别是：</p>
+<ul>
+<li>线程独享的：程序计数器，Java虚拟机栈，本地方法栈</li>
+<li>线程共享的：堆， 方法区/元空间</li>
+</ul>
+<h6 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h6><blockquote>
+<p>程序计数器（Program Counter Register）是一块较小的内存空间，由于JVM可以并发执行线程，因此会存在线程之间的切换，而这个时候就程序计数器会记录下当前程序执行到的位置，以便在其他线程执行完毕后，恢复现场继续执行。</p>
+</blockquote>
+<p>可以理解为记录代码行号</p>
+<ul>
+<li>Java方法，这个计数器记录的是正在执行虚拟机字节码指令的地址</li>
+<li>Native方法，计数器的值则为空（undefined）</li>
+</ul>
+<h6 id="Java虚拟机栈"><a href="#Java虚拟机栈" class="headerlink" title="Java虚拟机栈"></a>Java虚拟机栈</h6><p><img src="https://pic2.zhimg.com/80/v2-1ba2ed6d919c5dcfececcd846b33d2a1_1440w.webp"></p>
+<blockquote>
+<p>每个方法在执行的同时都会创建一个栈帧（Stack Frame，是方法运行时的基础数据结构）用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。<br>虚拟机栈是每个线程独有的，随着线程的创建而存在，线程结束而死亡。</p>
+</blockquote>
+<p>可以理解为 <strong>程序中用到的方法运行时的存储：每个方法享有一个栈帧, 用栈结构实现</strong> 。<br>在活动线程中，只有位于栈顶的栈帧才是有效的，称为<strong>当前栈帧</strong>，与这个栈帧相关联的方法称为当前方法。</p>
+<blockquote>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://www.seoxiehui.cn/article-403915-1.html#:~:text=%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88%E5%B0%B1%E6%98%AFJV,%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88%E6%98%AF%E7%A9%BA%E7%9A%84%E3%80%82">全网最全JVM虚拟机栈讲解，一文弄懂先进后出的原理-工具-站长头条 (seoxiehui.cn)</a></p>
+</blockquote>
+<ul>
+<li>局部变量表（local variables)<ul>
+<li>局部变量表中的变量只在当前方法调用中有效。在方法执行时，虚拟机通过使用局部变量表完成参数值到参数变量列表的传递过程。当方法调用结束后，随着方法栈帧的销毁，局部变量表也会随之销毁。</li>
+<li>局部变量表，最基本的存储单元是Slot（变量槽）</li>
+<li>当一个实例方法被调用的时候，它的方法参数和方法体内部定义的局部变量将会按照顺序被复制到局部变量表中的每一个Slot上</li>
+</ul>
+</li>
+<li>操作数栈<ul>
+<li>每一个独立的栈帧中除了包含局部变量表以外，还包含一个后进先出（Last-In-First-Out）的操作数栈，也可以称之为表达式栈（Expression Stack）。</li>
+<li>栈中的任何一个元素都是可以任意的Java数据类型。 32bit的类型占用一个栈单位深度 64bit的类型占用两个栈单位深度</li>
+<li>某些字节码指令将值压入操作数栈，其余的字节码指令将操作数取出栈。使用它们后再把结果压入栈。比如：执行复制、交换、求和等操作</li>
+<li>如果被调用的方法带有返回值的话，其返回值将会被压入当前栈帧的操作数栈中，并更新PC寄存器中下一条需要执行的字节码指令。</li>
+<li> <strong>大概就是用来对局部变量之间进行计算</strong></li>
+<li>有个<strong>栈顶缓存技术</strong>提高效率</li>
+</ul>
+</li>
+<li>动态链接（或指向运行时常量池的方法引用）<ul>
+<li>每一个栈帧内部都包含一个指向运行时常量池中该栈帧所属方法的引用。包含这个引用的目的就是为了支持当前方法的代码能够实现动态链接（Dynamic Linking）。比如：invokedynamic指令</li>
+<li>在Java源文件被编译到字节码文件中时，所有的变量和方法引用都作为符号引用（Symbolic Reference）保存在class文件的常量池里。比如：描述一个方法调用了另外的其他方法时，就是通过常量池中指向方法的符号引用来表示的，那么动态链接的作用就是为了将这些符号引用转换为调用方法的直接引用。</li>
+</ul>
+</li>
+<li>方法出口<ul>
+<li>存放调用该方法的pc寄存器的值。</li>
+<li>一个方法的结束，有两种方式： 正常执行完成 出现未处理的异常，非正常退出</li>
+<li>无论通过哪种方式退出，在方法退出后都返回到该方法被调用的位置。<ul>
+<li>方法正常退出时，调用者的<strong>pc计数器的值作为返回地址，即调用该方法的指令的下一条指令的地址。</strong></li>
+<li>而通过异常退出的，返回地址是要通过异常表来确定，栈帧中一般不会保存这部分信息。</li>
+</ul>
+</li>
+<li>方法退出的过程相当于弹出当前栈帧。</li>
+</ul>
+</li>
+</ul>
+<h6 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h6><p>Java虚拟机栈是调用Java方法；本地方法栈是调用本地native方法，可以认为是通过 <code>JNI</code> (Java Native Interface) 直接调用本地 C/C++ 库，不受JVM控制。<br><img src="https://pic1.zhimg.com/80/v2-73a36d19c6dd02091f3a2b2a57a0b6a8_1440w.webp" alt="本地方法栈调用"></p>
+<h6 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h6><blockquote>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45393094/article/details/106163605">(18条消息) 一文读懂 -Java虚拟机的内存结构（图详解）_辰兮要努力的博客-CSDN博客_虚拟机内存图</a></p>
+</blockquote>
+<ul>
+<li>所有<strong>线程共享</strong>的一块内存区域,唯一目的就是<strong>存放对象实例，几乎所有的对象实例都在这里分配内存。</strong></li>
+<li><strong>垃圾回收(GC)</strong><ul>
+<li><img src="https://pic1.zhimg.com/80/v2-8fc295fef11441a7ac2153f31b99ba08_1440w.webp" alt="分代回收算法"></li>
+<li>新生代（Young Generation）主要是用来存放新生的对象。新生代又被进一步划分为Eden区（伊甸园区）和Survivor区（幸存区，包含空间相等的S0、S1区，或者说From、To区，没有先后顺序，是Copying算法的需要）。大多数情况下，java中新建的对象都是在新生代上分配的，通过Copying算法来进行分配内存和垃圾回收。</li>
+<li>老生代（Old Generation）主要存放应用程序中生命周期长的内存对象。在新生代中经过多次垃圾回收仍然存活的对象，会被存放到老生代中。老生代通过标记/整理算法来清理无用内存。</li>
+</ul>
+</li>
+<li>针对 HotSpot VM 的实现，它里面的 GC 其实准确分类只有两大种：<ul>
+<li>部分收集 (Partial GC)：<ul>
+<li>  新生代收集（Minor GC / Young GC）：只对新生代进行垃圾收集；</li>
+<li>  老年代收集（Major GC / Old GC）：只对老年代进行垃圾收集。需要注意的是 Major GC 在有的语境中也用于指代整堆收集；</li>
+<li>  混合收集（Mixed GC）：对整个新生代和部分老年代进行垃圾收集。</li>
+</ul>
+</li>
+<li>整堆收集 (Full GC)：收集整个 Java 堆和方法区</li>
+</ul>
+</li>
+<li>死亡对象判断方法<ul>
+<li>引用计数法<ul>
+<li>给对象中添加一个引用计数器：<br>  每当有一个地方引用它，计数器就加 1；<br>  当引用失效，计数器就减 1；<br>  任何时候计数器为 0 的对象就是不可能再被使用的。</li>
+<li>这个方法实现简单，效率高，但是目前主流的虚拟机中并没有选择这个算法来管理内存，其最主要的原因是它很难解决对象之间相互循环引用的问题。</li>
+</ul>
+</li>
+<li>可达性分析算法<ul>
+<li>通过一系列的称为 “GC Roots” 的对象作为起点，从这些节点开始向下搜索，节点所走过的路径称为引用链，当一个对象到 GC Roots 没有任何引用链相连的话，则证明此对象是不可用的，需要被回收</li>
+<li>即使在可达性分析法中不可达的对象，也<strong>并非是“非死不可”的，这时候它们暂时处于“缓刑阶段”</strong>，要真正宣告一个对象死亡，<strong>至少要经历两次标记过程</strong>；可达性分析法中不可达的对象被第一次标记并且进行一次筛选,被判定为需要执行的对象将会被放在一个队列中进行第二次标记，除非这个对象与引用链上的任何一个对象建立关联，否则就会被真的回收。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="方法区-元空间"><a href="#方法区-元空间" class="headerlink" title="方法区/元空间"></a>方法区/元空间</h6><blockquote>
+<p>方法区是JVM规范概念，而永久代则是Hotspot虚拟机特有的概念，简单点理解：方法区和堆内存的永久代其实一个东西，但是方法区是包含了永久代。<br>只有 HotSpot 才有 “PermGen space”，而对于其他类型的虚拟机，如 JRockit（Oracle）、J9（IBM） 并没有“PermGen space”<br>永久代与元空间：均是方法区的实现。永久代将大多数据放在堆内存上，容易诱发OOM。<br>JDK 1.8之后废弃永久代使用元空间，将方法区数据放在本地内存，理论上可仅受系统内存限制。</p>
+</blockquote>
+<p>方法区逻辑上属于堆的一部分，但是为了与堆进行区分，通常又叫“非堆”。</p>
+<p>存放有<strong>运行时常量池</strong>，以及<strong>class加载后的产物</strong>(类字节码、class/method/field等元数据对象、static-final常量、static变量)，以及<strong>JIT过程的生成的代码</strong>。</p>
+<ul>
+<li><p>运行时常量池</p>
+<ul>
+<li>字节码文件–class文件中包含了很多信息，比如魔数、属性表、方法表等，其中还有一个常量池，常量池则包含了这个类所用到的各种字面量和引用量<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;hhh&quot;</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="string">&quot;aa&quot;</span> + s</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="string">&quot;ssss&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//字面量</span></span><br><span class="line"><span class="comment">//这个好理解，其实就是  各种 文本字符串，以及基本数据类型，final 常量等，注例如</span></span><br><span class="line"><span class="comment">//那么 0、&quot;hhh&quot;、&quot;aa&quot;、&quot;ssss&quot; 都属于字面量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//引用量:</span></span><br><span class="line"><span class="comment">//也就是符号引用，类和接口的全限定名、字段的名称和描述符、方法的名称和描述符</span></span><br><span class="line"><span class="comment">//还是上面的Class A</span></span><br><span class="line"><span class="comment">//那么 类全限定名  </span></span><br><span class="line"><span class="comment">//packagename.A、a、test、packagename.A.test:()V这些就是符号引用</span></span><br><span class="line">     </span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>字符串常量池（不在永久代)</p>
+<ul>
+<li>字符串常量池 是 JVM 为了提升性能和减少内存消耗针对字符串（String 类）专门开辟的一块区域，主要目的是为了避免字符串的重复创建。<br><img src="https://guide-blog-images.oss-cn-shenzhen.aliyuncs.com/github/javaguide/java/jvm/method-area-jdk1.7.png" alt="位置"></li>
+</ul>
+</li>
+<li><p>JIT代码缓存</p>
+</li>
+</ul>
+<blockquote>
+<p>JIT, 即时编译.JVM通过解释器java字节码(.class文件)执行时，由于效率问题，引入JIT，即JVM发现某个代码块运行频繁，则会将其编译为相关的机器码，存在方法区，供下次使用。<br>参考链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5e35e50b4dc2">JVM内存结构概念解析 - 简书 (jianshu.com)</a></p>
+</blockquote>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p><code>List</code>,<code>Set</code>,继承<code>Collection</code>接口<br><code>Map</code>单独接口</p>
+<h3 id="LIst，Set相关"><a href="#LIst，Set相关" class="headerlink" title="LIst，Set相关"></a>LIst，Set相关</h3><table>
+<thead>
+<tr>
+<th>类</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>List</td>
+<td>元素有放入顺序，元素可重复</td>
+</tr>
+<tr>
+<td>Set</td>
+<td>元素无放入顺序，元素不可重复。</td>
+</tr>
+</tbody></table>
+<h4 id="List"><a href="#List" class="headerlink" title="List"></a>List</h4><table>
+<thead>
+<tr>
+<th>类</th>
+<th>种类</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ArrayList</td>
+<td>一个可改变大小的数组</td>
+<td>更多的元素加入到ArrayList中时,其大小将会动态地增长.内部的元素可以直接通过get与set方法进行访问</td>
+</tr>
+<tr>
+<td>LinkedList</td>
+<td>一个双链表</td>
+<td>在添加和删除元素时具有比ArrayList更好的性能.但在get与set方面弱于ArrayList.</td>
+</tr>
+<tr>
+<td>Vector</td>
+<td>一个可改变大小的数组(java.util包)</td>
+<td>和ArrayList类似,但属于强同步类</td>
+</tr>
+<tr>
+<td>SynchronizedList</td>
+<td>java.util.Collections中的一个静态内部类</td>
+<td>使用Collections.synchronizedList(List list)方法来返回一个线程安全的List</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Vector和ArrayList在更多元素添加进来时会请求更大的空间。Vector每次请求其大小的双倍空间，而ArrayList每次对size增长50%.</li>
+<li>LinkedList 还实现了 Queue 接口,该接口比List提供了更多的方法,包括 offer(),peek(),poll()等.</li>
+</ul>
+<h6 id="SynchronizedList和Vector的区别"><a href="#SynchronizedList和Vector的区别" class="headerlink" title="SynchronizedList和Vector的区别"></a>SynchronizedList和Vector的区别</h6><ul>
+<li>add方法</li>
+</ul>
+<ol>
+<li>Vector使用同步方法实现，synchronizedList使用同步代码块实现。</li>
+<li>两者的扩充数组容量方式不一样（两者的add方法在扩容方面的差别也就是ArrayList和Vector的差别。）</li>
+</ol>
+<ul>
+<li>remove方法</li>
+</ul>
+<ol>
+<li><p>除了一个使用同步方法，一个使用同步代码块之外几乎无任何区别。</p>
+<p> 通过比较其他方法，我们发现，SynchronizedList里面实现的方法几乎都是使用同步代码块包上List的方法。<br> 如果该List是ArrayList,那么，SynchronizedList和Vector的一个比较明显区别就是一个使用了同步代码块，一个使用了同步方法。</p>
+</li>
+</ol>
+<ul>
+<li><p>数据增长区别<br>Vector缺省情况下自动增长原来一倍的数组长度，ArrayList是原来的50%</p>
+</li>
+<li><p>同步代码块和同步方法的区别</p>
+</li>
+</ul>
+<blockquote>
+<p>1.同步代码块在锁定的范围上可能比同步方法要小，一般来说锁的范围大小和性能是成反比的。 <br>2.同步块可以更加精确的控制锁的作用域（锁的作用域就是从锁被获取到其被释放的时间），同步方法的锁的作用域就是整个方法。<br>3.同步代码块可以选择对哪个对象加锁，但是静态方法只能给this对象加锁。</p>
+</blockquote>
+<p>因为SynchronizedList只是使用同步代码块包裹了ArrayList的方法，而ArrayList和Vector中同名方法的方法体内容并无太大差异，所以在锁定范围和锁的作用域上两者并无区别。<br>在锁定的对象区别上，SynchronizedList的同步代码块锁定的是mutex对象，Vector锁定的是this对象</p>
+<blockquote>
+<p>那么mutex对象又是什么呢？ 其实SynchronizedList有一个构造函数可以传入一个Object,如果在调用的时候显示的传入一个对象，那么锁定的就是用户传入的对象。如果没有指定，那么锁定的也是this对象。</p>
+</blockquote>
+<hr>
+<p> SynchronizedList和Vector最主要的区别：<br> <br> <strong>1.SynchronizedList有很好的扩展和兼容功能。他可以将所有的List的子类转成线程安全的类。</strong> <br> <strong>2.使用SynchronizedList的时候，进行遍历时要手动进行同步处理</strong>。 <br> <strong>3.SynchronizedList可以指定锁定的对象。</strong><br> — </p>
+<h4 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>实现</th>
+<th>Null问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TreeSet</td>
+<td>二叉树实现</td>
+<td>不允许放入 null值</td>
+</tr>
+<tr>
+<td>HashSet</td>
+<td>哈希表实现</td>
+<td>可以放入 null值,但只能放入一个null</td>
+</tr>
+</tbody></table>
+<ul>
+<li>在==HashSet==中，基本的操作都是由HashMap底层实现的，因为<strong>HashSet底层是用HashMap存储数据的</strong>.当向HashSet中添加元素的时候，首先计算元素的hashCode值，然后通过扰动计算和按位与的方式计算出这个元素的存储位置，如果这个位置为空，就将元素添加进去；如果不为空，则用equals方法比较元素是否相等，相等就不添加，否则找一个空位添加。</li>
+<li>**==TreeSet==的底层是TreeMap的keySet()**，而TreeMap是基于红黑树实现的，红黑树是一种平衡二叉查找树，它能保证任何一个节点的左右子树的高度差不会超过较矮的那棵的一倍。</li>
+<li>==TreeMap==是按key排序的，元素在插入TreeSet时compareTo()方法要被调用，所以TreeSet中的元素要实现Comparable接口。TreeSet作为一种Set，它不允许出现重复元素。TreeSet是用compareTo()来判断重复元素的。</li>
+</ul>
+<h5 id="HashMap-HashTable-ConcurrentHashMap"><a href="#HashMap-HashTable-ConcurrentHashMap" class="headerlink" title="HashMap, HashTable, ConcurrentHashMap"></a>HashMap, HashTable, ConcurrentHashMap</h5><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>同步</th>
+<th>Null问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HashMap</td>
+<td>默认情况下是非同步</td>
+<td>null可以作为键，这样的键只有一个;<br>可以有一个或多个键所对应的值为null。</td>
+</tr>
+<tr>
+<td>HashTable</td>
+<td>同步</td>
+<td>HashTable中，key和value都不允许出现null值</td>
+</tr>
+<tr>
+<td>ConcurrentHashMap</td>
+<td>线程安全</td>
+<td>null可以作为键，这样的键只有一个；<br>可以有一个或多个键所对应的值为null。</td>
+</tr>
+</tbody></table>
+<h6 id="HashMap的容量、扩容"><a href="#HashMap的容量、扩容" class="headerlink" title="HashMap的容量、扩容"></a>HashMap的容量、扩容</h6><p><img src="http://www.hollischuang.com/wp-content/uploads/2018/05/paramInMap.png" alt="HashMap成员变量"><br>主要关注的： <code>size</code>、<code>loadFactor</code>、<code>threshold</code>、<code>DEFAULT_LOAD_FACTOR</code>和<code>DEFAULT_INITIAL_CAPACITY</code>。</p>
+<ul>
+<li><pre><code>transient int size;     -   记录了Map中KV对的个数
+</code></pre>
+</li>
+<li>loadFactor <ul>
+<li>  装载因子，用来衡量HashMap满的程度。loadFactor的默认值为0.75f（<code>static final float DEFAULT_LOAD_FACTOR = 0.75f;</code>）。</li>
+</ul>
+</li>
+<li>int threshold; <ul>
+<li>  临界值，当实际KV个数超过threshold时，HashMap会将容量扩容，threshold＝容量*装载因子</li>
+</ul>
+</li>
+<li>除了以上这些重要成员变量外，HashMap中还有一个和他们紧密相关的概念：capacity <ul>
+<li>  容量，如果不指定，默认容量是16(<code>static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4;</code>)<br>即:</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>默认情况下，一个HashMap的容量（capacity）是16.但是，如果用户通过构造函数指定了一个数字作为容量，那么Hash会选择大于该数字的第一个2的幂作为容量。(1-&gt;1、7-&gt;8、9-&gt;16)</li>
+<li>当达到扩容条件时会进行扩容，从16扩容到32、64、128…<ul>
+<li>HashMap的扩容条件就是当HashMap中的元素个数（size）超过临界值（threshold）时就会自动扩容。</li>
+<li>threshold = loadFactor (装载因子,默认值为0.75f) * capacity</li>
+<li>对于一个默认的HashMap来说，默认情况下，当其size大于12(16 * 0.75)时就会触发扩容。</li>
+</ul>
+</li>
+</ol>
+<h6 id="HashMap的哈希冲突解决"><a href="#HashMap的哈希冲突解决" class="headerlink" title="HashMap的哈希冲突解决"></a>HashMap的哈希冲突解决</h6><blockquote>
+<p>参考链接：<br><a target="_blank" rel="noopener" href="https://hollischuang.gitee.io/tobetopjavaer/#/basics/java-basic/hash-in-hashmap?id=%e5%93%88%e5%b8%8c">HashMap中hash方法的原理 (gitee.io)</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7e7f52a49ffc">哈希表（HashTable）的构造方法和冲突解决 - 简书 (jianshu.com)</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/justloveyou_/article/details/62893086">(18条消息) Map 综述（一）：彻头彻尾理解 HashMap_书呆子Rico的博客-CSDN博客_map</a></p>
+</blockquote>
+<ol>
+<li>Hash 是什么</li>
+</ol>
+<p><strong>数组的特点是：寻址容易，插入和删除困难；而链表的特点是：寻址困难，插入和删除容易</strong>，将数组和链表组合在一起，发挥了两者的优势，我们可以将其理解为链表的数组<br><img src="http://www.hollischuang.com/wp-content/uploads/2018/03/640.png" alt="Hash表"></p>
+<ul>
+<li>Hash()方法-1<ul>
+<li>hash方法的输入应该是个Object类型的Key，输出应该是个int类型的数组下标。<ul>
+<li>要调用Object对象的hashCode()方法，该方法会返回一个整数，然后用这个数对HashMap或者HashTable的容量进行取模就行了</li>
+<li>(2^n - 1)保证首位为0:符号稳定<blockquote>
+<p>此处用 取模和位与运算<br>那么，为什么可以使用位运算(&amp;)来实现取模运算(%)呢？这实现的原理如下：<br>X % 2^n = X &amp; (2^n - 1)<br>2^n表示2的n次方，也就是说，一个数对2^n取模 == 一个数和(2^n - 1)做按位与运算 。<br>假设n为3，则2^3 = 8，表示成2进制就是1000。2^3 -1 = 7 ，即0111。<br>此时X &amp; (2^3 - 1) 就相当于取X的2进制的最后三位数。<br>从2进制角度来看，X / 8相当于 X &gt;&gt; 3，即把X右移3位，此时得到了X / 8的商，而被移掉的部分(后三位)，则是X % 8，也就是余数。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Hash()方法-2<ul>
+<li>产生冲突的两个hashcode，经过扰动计算之后，最终得到的index的值不一样</li>
+<li>高位的特征和低位的特征组合起来，降低哈希冲突的概率<br><img src="http://www.hollischuang.com/wp-content/uploads/2018/03/640-3.png" alt="Hash冲突"><br><img src="http://www.hollischuang.com/wp-content/uploads/2018/03/640-4.png" alt="Hash扰动：右移"></li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>HashMap存取</li>
+</ol>
+<p>在存储的过程中，系统根据key的hash值来定位Entry在table数组中的哪个桶，并且将其放到对应的链表的链头；<br>在取的过程中，同样根据key的hash值来定位Entry在table数组中的哪个桶，然后在该桶中查找并返回。</p>
+<p>在Java 8 之前，HashMap和其他基于map的类都是通过==链地址法==解决冲突，它们使用单向链表来存储相同索引值的元素。在最坏的情况下，这种方式会将HashMap的get方法的性能从<code>O(1)</code>降低到<code>O(n)</code>。<br>为了解决在频繁冲突时hashmap性能降低的问题，Java 8中使用==平衡树==来替代链表存储冲突的元素。这意味着我们可以将最坏情况下的性能从<code>O(n)</code>提高到<code>O(logn)</code>。</p>
+<blockquote>
+<p>当链表长度大于阈值（默认为 8）时，会首先调用 <code>treeifyBin()</code>方法。这个方法会根据 HashMap 数组来决定是否转换为红黑树。只有当数组长度大于或者等于 64 的情况下，才会执行转换红黑树操作，以减少搜索时间。<br>参考链接：<a target="_blank" rel="noopener" href="https://javaguide.cn/java/collection/hashmap-source-code.html#jdk1-8-%E4%B9%8B%E5%89%8D">HashMap源码&amp;底层数据结构分析 | JavaGuide</a></p>
+</blockquote>
+<p><img src="https://oscimg.oschina.net/oscnet/up-bba283228693dae74e78da1ef7a9a04c684.png" alt="Java8 HashMap"></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">底层原理</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/11/06/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">算法基础结构</div></div></a></div><div class="next-post pull-right"><a href="/2022/11/03/%E5%88%B7%E9%A2%98%E6%97%A5%E8%AE%B0-SQL/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">刷题日记-SQL</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Cyansh</div><div class="author-info__description">May you find your worth in the waking world.</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Cyanash"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Mind break.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%92%8C-equals-%E5%8C%BA%E5%88%AB"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">&#x3D;&#x3D; 和 equals 区别</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM"><span class="toc-number">2.</span> <span class="toc-text">JVM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">Java内存结构</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">2.1.0.0.1.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="toc-number">2.1.0.0.2.</span> <span class="toc-text">Java虚拟机栈</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="toc-number">2.1.0.0.3.</span> <span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A0%86"><span class="toc-number">2.1.0.0.4.</span> <span class="toc-text">堆</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA-%E5%85%83%E7%A9%BA%E9%97%B4"><span class="toc-number">2.1.0.0.5.</span> <span class="toc-text">方法区&#x2F;元空间</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88"><span class="toc-number">3.</span> <span class="toc-text">集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LIst%EF%BC%8CSet%E7%9B%B8%E5%85%B3"><span class="toc-number">3.1.</span> <span class="toc-text">LIst，Set相关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#List"><span class="toc-number">3.1.1.</span> <span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#SynchronizedList%E5%92%8CVector%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.1.1.0.1.</span> <span class="toc-text">SynchronizedList和Vector的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Set"><span class="toc-number">3.1.2.</span> <span class="toc-text">Set</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap-HashTable-ConcurrentHashMap"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">HashMap, HashTable, ConcurrentHashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#HashMap%E7%9A%84%E5%AE%B9%E9%87%8F%E3%80%81%E6%89%A9%E5%AE%B9"><span class="toc-number">3.1.2.1.1.</span> <span class="toc-text">HashMap的容量、扩容</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#HashMap%E7%9A%84%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3"><span class="toc-number">3.1.2.1.2.</span> <span class="toc-text">HashMap的哈希冲突解决</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/06/%E5%88%B7%E9%A2%98%E6%97%A5%E8%AE%B0-%E6%95%B0%E7%BB%84/" title="刷题日记-数组">刷题日记-数组</a><time datetime="2022-11-06T11:09:00.000Z" title="发表于 2022-11-06 19:09:00">2022-11-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/06/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84/" title="算法基础结构">算法基础结构</a><time datetime="2022-11-06T11:07:58.000Z" title="发表于 2022-11-06 19:07:58">2022-11-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/06/%E5%88%B7%E9%A2%98%E6%97%A5%E8%AE%B0-JAVA/" title="刷题日记-JAVA">刷题日记-JAVA</a><time datetime="2022-11-06T10:28:03.000Z" title="发表于 2022-11-06 18:28:03">2022-11-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/03/%E5%88%B7%E9%A2%98%E6%97%A5%E8%AE%B0-SQL/" title="刷题日记-SQL">刷题日记-SQL</a><time datetime="2022-11-03T13:19:41.000Z" title="发表于 2022-11-03 21:19:41">2022-11-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/02/%E5%88%B7%E9%A2%98%E6%97%A5%E8%AE%B0-ACM%E6%A8%A1%E5%BC%8F/" title="刷题日记-ACM模式">刷题日记-ACM模式</a><time datetime="2022-11-02T13:15:13.000Z" title="发表于 2022-11-02 21:15:13">2022-11-02</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><div id="footer-wrap"><div class="copyright">&copy;2022 By Cyansh</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="3136952023" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
